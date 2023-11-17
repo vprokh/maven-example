@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!-- 3 main attributes that are mandatory for each maven project -->
     <groupId>com.example</groupId>
     <artifactId>goItLesson1</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -10,14 +11,17 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
 
+        <!-- convenient way to manage versions of dependencies/plugins. Also, is being used not only for the versions -->
         <junit.version>5.10.0</junit.version>
+        <maven.compiler.version>3.6.1</maven.compiler.version>
         <maven.assebly.version>3.1.1</maven.assebly.version>
     </properties>
 
+    <!-- be default value is jar so no need to declare it in this case-->
     <packaging>jar</packaging>
 
-
     <name>goItLesson1</name>
+
     <url>http://maven.apache.org</url>
 
     <dependencies>
@@ -30,17 +34,17 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>${maven.compiler.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
 
+            <!-- plugin for fat jar generation (jar which includes all dependencies and manifest file with main class) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -66,8 +70,26 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <!-- local repository (we can put artifacts inside declared in the <url> path directory and project will use them) -->
+        <repository>
+            <id>data-local</id>
+            <name>data</name>
+            <url>file://${project.basedir}/repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <!-- another public repository (similar to the Maven central repository) -->
+        <repository>
+            <id>JBoss repository</id>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
 </project>
